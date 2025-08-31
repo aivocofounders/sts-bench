@@ -1,0 +1,311 @@
+Vision:
+=== DEVELOPER GUIDE: Vision ===
+
+HOW TO USE
+==========
+
+Model: Vision
+Description: Advanced multimodal AI that can understand and analyze text, images, audio, video, and PDF files. Supports up to 1 million tokens per request with real-time streaming capabilities.
+
+Base URL: https://api.lab.vispark.in
+Endpoint: /model/text/vision
+Method: POST
+Authentication: X-API-Key: your_api_key_here
+
+Description: Multimodal AI capable of understanding text, images, audio, video, and PDFs with up to 1 million tokens context limit.
+
+REQUEST SCHEMA
+==============
+
+Parameters:
+  size: "small" | "medium" | "large"
+  content: Array of content objects (text, image, audio, video, pdf)
+  system_message: Optional system prompt
+  stream: Boolean for streaming responses
+
+Request Body (JSON):
+{
+  "size": "small",
+  "content": [
+    {
+      "type": "text",
+      "content": "Example content"
+    }
+  ],
+  "system_message": "Optional system prompt",
+  "stream": false
+}
+
+RESPONSE FORMAT
+===============
+
+{
+  "status": "success",
+  "data": {
+    "status": true,
+    "content": "This appears to be a beautiful sunset over mountains with a lake in the foreground.",
+    "type": "text"
+  },
+  "units_consumed": 0.015,
+  "units_remaining": 999.985
+}
+
+CODE EXAMPLES
+=============
+
+cURL:
+-----
+curl -X POST https://api.lab.vispark.in/model/text/vision \
+  -H "X-API-Key: vl_your_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "size": "small",
+    "content": [
+      {
+        "type": "text",
+        "content": "Describe this image"
+      },
+      {
+        "type": "image",
+        "content": "base64_encoded_image_data"
+      }
+    ]
+  }'
+
+Python:
+-------
+import requests
+
+response = requests.post(
+    "https://api.lab.vispark.in/model/text/vision",
+    headers={
+        "X-API-Key": "vl_your_api_key",
+        "Content-Type": "application/json"
+    },
+    json={
+        "size": "small",
+  "content": [
+    {
+      "type": "text",
+                "content": "Describe this image"
+    },
+    {
+      "type": "image",
+                "content": "base64_encoded_image_data"
+            }
+        ]
+    }
+)
+
+result = response.json()
+print(result["data"]["content"])
+
+JavaScript:
+------------
+const response = await fetch('https://api.lab.vispark.in/model/text/vision', {
+  method: 'POST',
+  headers: {
+    'X-API-Key': 'vl_your_api_key',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    // Model-specific parameters
+  })
+});
+
+const result = await response.json();
+console.log(result.data.content);
+
+
+---
+
+
+Text to Speech:
+=== DEVELOPER GUIDE: Text to Speech ===
+
+HOW TO USE
+==========
+
+Model: Text to Speech
+Description: Convert text into natural-sounding speech with emotions and any language. Enter emotions is [...] in between the text.
+
+Base URL: https://api.lab.vispark.in
+Endpoint: /model/audio/text_to_speech
+Method: POST
+Authentication: X-API-Key: your_api_key_here
+
+Description: Convert text into natural-sounding speech with multiple voice options.
+
+REQUEST SCHEMA
+==============
+
+Parameters:
+  size: "small" | "large"
+  text: Text to speak (max 30,000 tokens)
+  voice: "boy" | "girl"
+
+Request Body (JSON):
+{
+  "size": "small",
+  "text": "Your text here...",
+  "voice": "boy"
+}
+
+RESPONSE FORMAT
+===============
+
+{
+  "status": "success",
+  "data": {
+    "status": true,
+    "content": "UklGRnoGAABXQVZFZm10IBAAAAABAAEA...",
+    "type": "audio"
+  },
+  "units_consumed": 3.6,
+  "units_remaining": 996.4
+}
+
+CODE EXAMPLES
+=============
+
+cURL:
+-----
+curl -X POST https://api.lab.vispark.in/model/audio/text_to_speech \
+  -H "X-API-Key: vl_your_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "size": "small",
+    "text": "Hello, this is a test message",
+    "voice": "boy"
+  }'
+
+Python:
+-------
+import requests
+import base64
+
+response = requests.post(
+    "https://api.lab.vispark.in/model/audio/text_to_speech",
+    headers={
+        "X-API-Key": "vl_your_api_key",
+        "Content-Type": "application/json"
+    },
+    json={
+        "size": "small",
+        "text": "Hello, this is a test message",
+        "voice": "boy"
+    }
+)
+
+result = response.json()
+audio_data = base64.b64decode(result["data"]["content"])
+
+# Save the audio
+with open("generated_audio.wav", "wb") as f:
+    f.write(audio_data)
+
+JavaScript:
+------------
+const response = await fetch('https://api.lab.vispark.in/model/audio/text_to_speech', {
+  method: 'POST',
+  headers: {
+    'X-API-Key': 'vl_your_api_key',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    // Model-specific parameters
+  })
+});
+
+const result = await response.json();
+console.log(result.data.content);
+
+
+---
+
+Speech to Text:
+=== DEVELOPER GUIDE: Speech to Text ===
+
+HOW TO USE
+==========
+
+Model: Speech to Text
+Description: Convert speech to text/Transcription.
+
+Base URL: https://api.lab.vispark.in
+Endpoint: /model/audio/speech_to_text
+Method: POST
+Authentication: X-API-Key: your_api_key_here
+
+Description: Convert speech audio into accurate text transcriptions.
+
+REQUEST SCHEMA
+==============
+
+Parameters:
+  audio: Base64 encoded audio or URL (max 25MB)
+
+Request Body (JSON):
+{
+  "audio": "base64_audio_data"
+}
+
+RESPONSE FORMAT
+===============
+
+{
+  "status": "success",
+  "data": {
+    "status": true,
+    "content": "Hello, this is the transcribed text from the audio file.",
+    "type": "text"
+  },
+  "units_consumed": 1.0,
+  "units_remaining": 999.0
+}
+
+CODE EXAMPLES
+=============
+
+cURL:
+-----
+curl -X POST https://api.lab.vispark.in/model/audio/speech_to_text \
+  -H "X-API-Key: vl_your_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "audio": "base64_encoded_audio_data"
+  }'
+
+Python:
+-------
+import requests
+
+response = requests.post(
+    "https://api.lab.vispark.in/model/audio/speech_to_text",
+    headers={
+        "X-API-Key": "vl_your_api_key",
+        "Content-Type": "application/json"
+    },
+    json={
+        "audio": "base64_encoded_audio_data"
+    }
+)
+
+result = response.json()
+print("Transcription:", result["data"]["content"])
+
+JavaScript:
+------------
+const response = await fetch('https://api.lab.vispark.in/model/audio/speech_to_text', {
+  method: 'POST',
+  headers: {
+    'X-API-Key': 'vl_your_api_key',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    // Model-specific parameters
+  })
+});
+
+const result = await response.json();
+console.log(result.data.content);
