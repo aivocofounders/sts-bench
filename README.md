@@ -322,7 +322,6 @@ cp .env.example .env
 # VISPARK_API_KEY=your_vispark_key
 ```
 
-**Note:** All Vispark models are **publicly available** at [https://lab.vispark.in](https://lab.vispark.in) with comprehensive documentation and free tiers for testing.
 
 ### Running Individual Benchmarks
 ```bash
